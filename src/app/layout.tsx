@@ -7,6 +7,9 @@ import { SpeedometerProvider } from '@/hooks/use-speedometer';
 export const metadata: Metadata = {
   title: 'Velocity View',
   description: 'A modern, dark-themed digital speedometer that works offline.',
+  icons: {
+    icon: '/fevicon.png',
+  },
 };
 
 export default function RootLayout({
