@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
@@ -21,6 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* ✅ Google Search Console Verification */}
+        <meta name="google-site-verification" content="NF9jOzVemelYEq-sbJWF-82tCiwyY7MBEMUHVXgRHmc" />
+
         {/* Google Analytics Script */}
         <Script
           strategy="afterInteractive"
@@ -44,7 +46,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased bg-background" suppressHydrationWarning>
         <SpeedometerProvider>
-            {children}
+          {children}
         </SpeedometerProvider>
         <Toaster />
       </body>
