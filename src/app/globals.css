@@ -7,58 +7,49 @@ body {
 }
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 231 35% 18%;
-    --card: 0 0% 100%;
+  :root, .light {
+    --background: 240 60% 98%; /* Lighter almost white */
+    --foreground: 231 35% 18%; /* Dark Indigo Text */
+    --card: 240 50% 100%;
     --card-foreground: 231 35% 18%;
-    --popover: 0 0% 100%;
+    --popover: 240 50% 100%;
     --popover-foreground: 231 35% 18%;
-    --primary: 231 48% 48%;
+    --primary: 231 48% 48%; /* Deep Indigo */
     --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 276 100% 73%;
-    --accent-foreground: 0 0% 100%;
+    --secondary: 240 20% 92%;
+    --secondary-foreground: 231 35% 18%;
+    --muted: 240 20% 92%;
+    --muted-foreground: 231 35% 45%;
+    --accent: 276 100% 73%; /* Electric Purple */
+    --accent-foreground: 231 35% 18%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 231 48% 48%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --border: 240 20% 88%;
+    --input: 240 20% 88%;
+    --ring: 276 100% 73%;
     --radius: 0.5rem;
   }
+
   .dark {
-    --background: 231 35% 18%;
+    --background: 233 36% 19%; /* Very dark desaturated Indigo */
     --foreground: 0 0% 98%;
-    --card: 231 35% 22%;
+    --card: 233 36% 24%;
     --card-foreground: 0 0% 98%;
-    --popover: 231 35% 18%;
+    --popover: 233 36% 19%;
     --popover-foreground: 0 0% 98%;
-    --primary: 231 48% 48%;
+    --primary: 231 48% 48%; /* Deep Indigo */
     --primary-foreground: 0 0% 98%;
-    --secondary: 231 35% 28%;
+    --secondary: 233 36% 29%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 231 35% 28%;
+    --muted: 233 36% 29%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 276 100% 73%;
-    --accent-foreground: 231 35% 18%;
+    --accent: 276 100% 73%; /* Electric Purple */
+    --accent-foreground: 233 36% 19%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 231 35% 28%;
-    --input: 231 35% 28%;
+    --border: 233 36% 29%;
+    --input: 233 36% 29%;
     --ring: 276 100% 73%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
   }
 }
 
