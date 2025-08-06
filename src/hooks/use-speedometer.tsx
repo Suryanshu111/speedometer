@@ -42,7 +42,7 @@ export function SpeedometerProvider({ children }: { children: ReactNode }) {
   const [unit, setUnit] = useState<Unit>('kmh');
   const [permissionStatus, setPermissionStatus] = useState<PermissionStatus>('pending');
   const [error, setError] = useState<string | null>(null);
-  const [emoji, setEmoji] = useState<string>('🤔');
+  const [emoji, setEmoji] = useState<string>('Google (Noto Color Emoji 16.0)');
   const [viewMode, setViewMode] = useState<ViewMode>('digital');
   const [theme, setTheme] = useState<Theme>('dark');
 
