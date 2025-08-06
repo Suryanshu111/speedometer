@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useRef, createContext, useContext, ReactNode } from 'react';
+import { useState, useEffect, useRef, createContext, useContext, ReactNode, useCallback } from 'react';
 import { getEmojiForSpeed } from '@/app/actions';
 import { getDistanceFromLatLonInKm } from '@/lib/utils';
 
@@ -9,6 +9,7 @@ type Unit = 'kmh' | 'mph' | 'mps';
 type PermissionStatus = 'pending' | 'granted' | 'denied';
 type ViewMode = 'digital' | 'analogue';
 type JourneyStatus = 'idle' | 'tracking' | 'finished';
+type Theme = 'light' | 'dark';
 
 interface Coordinates {
   lat: number;
@@ -25,11 +26,13 @@ interface SpeedometerContextType {
   journeyStatus: JourneyStatus;
   journeyPath: Coordinates[];
   journeyDistance: number;
+  theme: Theme;
   handleUnitToggle: () => void;
   handleViewToggle: () => void;
   handleStartJourney: () => void;
   handleEndJourney: () => void;
   handleResetJourney: () => void;
+  handleThemeToggle: () => void;
 }
 
 const SpeedometerContext = createContext<SpeedometerContextType | undefined>(undefined);
@@ -41,12 +44,22 @@ export function SpeedometerProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [emoji, setEmoji] = useState<string>('🤔');
   const [viewMode, setViewMode] = useState<ViewMode>('digital');
+  const [theme, setTheme] = useState<Theme>('dark');
 
   const [journeyStatus, setJourneyStatus] = useState<JourneyStatus>('idle');
   const [journeyPath, setJourneyPath] = useState<Coordinates[]>([]);
   const [journeyDistance, setJourneyDistance] = useState<number>(0);
 
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('speedometer-theme') as Theme;
+    if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
+      setTheme(savedTheme);
+    } else {
+      setTheme('dark');
+    }
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !navigator.geolocation) {
@@ -59,23 +72,19 @@ export function SpeedometerProvider({ children }: { children: ReactNode }) {
       (position) => {
         setPermissionStatus('granted');
         const { speed: currentSpeedInMps, latitude, longitude } = position.coords;
+        const currentSpeed = currentSpeedInMps ?? 0;
+        setSpeed(currentSpeed);
+        
+        const speedKmh = currentSpeed * 3.6;
 
-        if (currentSpeedInMps !== null && currentSpeedInMps > 0) {
-          const speedKmh = currentSpeedInMps * 3.6;
-          setSpeed(currentSpeedInMps);
-
-          if (debounceTimeout.current) {
+        if (debounceTimeout.current) {
             clearTimeout(debounceTimeout.current);
-          }
-
-          debounceTimeout.current = setTimeout(async () => {
-            const newEmoji = await getEmojiForSpeed(speedKmh);
-            setEmoji(newEmoji);
-          }, 500);
-        } else {
-          setSpeed(0);
-          setEmoji('🚶');
         }
+
+        debounceTimeout.current = setTimeout(() => {
+            getEmojiForSpeed(speedKmh).then(setEmoji);
+        }, 500);
+
 
         if (journeyStatus === 'tracking') {
           const newCoord = { lat: latitude, lng: longitude };
@@ -129,6 +138,14 @@ export function SpeedometerProvider({ children }: { children: ReactNode }) {
     setViewMode((prevMode) => (prevMode === 'digital' ? 'analogue' : 'digital'));
   };
 
+  const handleThemeToggle = useCallback(() => {
+    setTheme(prevTheme => {
+      const newTheme = prevTheme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('speedometer-theme', newTheme);
+      return newTheme;
+    });
+  }, []);
+
   const handleStartJourney = () => {
     setJourneyStatus('tracking');
     setJourneyPath([]);
@@ -155,11 +172,13 @@ export function SpeedometerProvider({ children }: { children: ReactNode }) {
     journeyStatus,
     journeyPath,
     journeyDistance,
+    theme,
     handleUnitToggle,
     handleViewToggle,
     handleStartJourney,
     handleEndJourney,
     handleResetJourney,
+    handleThemeToggle,
   };
 
   return <SpeedometerContext.Provider value={value}>{children}</SpeedometerContext.Provider>;
