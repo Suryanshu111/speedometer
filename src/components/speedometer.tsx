@@ -1,10 +1,9 @@
-
 "use client";
 
-import { useMemo, useState } from 'react';
-import { Frown, Route, Smartphone, Gauge, Play, Square, Repeat, HelpCircle } from 'lucide-react';
+import { useMemo, useState, useEffect } from 'react';
+import { Frown, Route, Smartphone, Gauge, Play, Square, Repeat, HelpCircle, Palette, Zap } from 'lucide-react';
 import { AnalogueSpeedometer } from './analogue-speedometer';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useSpeedometer } from '@/hooks/use-speedometer';
 import { Button } from './ui/button';
 import { LoadingIndicator } from './loading-indicator';
@@ -17,6 +16,7 @@ import {
   AlertDialogFooter,
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export function Speedometer() {
   const {
@@ -28,13 +28,21 @@ export function Speedometer() {
     unit,
     journeyStatus,
     journeyDistance,
+    transportationMode,
+    speedContext,
+    theme,
     handleUnitToggle,
     handleViewToggle,
     handleStartJourney,
     handleEndJourney,
-    handleResetJourney
+    handleResetJourney,
+    handleThemeToggle,
   } = useSpeedometer();
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.className = theme;
+  }, [theme]);
 
 
   const displaySpeed = useMemo(() => {
@@ -89,10 +97,21 @@ export function Speedometer() {
                     <CardTitle className="flex items-center justify-center gap-2">
                       <Route className="h-6 w-6" /> Journey Complete
                     </CardTitle>
+                    {transportationMode?.mode && (
+                        <CardDescription className="flex items-center justify-center gap-2 pt-2">
+                            <Zap className="h-4 w-4 text-accent" />
+                            AI thinks you were... {transportationMode.mode}
+                        </CardDescription>
+                     )}
                   </CardHeader>
-                  <CardContent>
-                      <p className="text-4xl font-bold">{displayDistance}</p>
-                      <p className="text-muted-foreground">{unit === 'kmh' || unit === 'mps' ? 'Kilometers' : 'Miles'}</p>
+                  <CardContent className="space-y-4">
+                      <div>
+                        <p className="text-4xl font-bold">{displayDistance}</p>
+                        <p className="text-muted-foreground">{unit === 'kmh' || unit === 'mps' ? 'Kilometers' : 'Miles'}</p>
+                      </div>
+                      {transportationMode?.comment && (
+                        <p className="text-sm italic text-muted-foreground">"{transportationMode.comment}"</p>
+                      )}
                   </CardContent>
                 </Card>
                 <Button onClick={handleResetJourney} size="lg">Start New Journey</Button>
@@ -103,7 +122,7 @@ export function Speedometer() {
           <div className="flex flex-col items-center justify-center text-center">
             {viewMode === 'digital' ? (
               <>
-                <div className="text-7xl md:text-8xl mb-6 transition-transform duration-500 ease-in-out transform hover:scale-110">
+                <div className="text-7xl md:text-8xl mb-4 transition-transform duration-500 ease-in-out transform hover:scale-110">
                   {emoji}
                 </div>
                 <div
@@ -116,6 +135,11 @@ export function Speedometer() {
                 <p className="text-xl md:text-2xl text-muted-foreground mt-1">
                   {currentUnitLabel}
                 </p>
+                {speedContext?.context && (
+                    <p className="text-md italic text-muted-foreground mt-2 h-6">
+                        "{speedContext.context}"
+                    </p>
+                )}
               </>
             ) : (
                 <AnalogueSpeedometer speed={Number(displaySpeed)} maxSpeed={maxSpeed} unit={unit} />
@@ -133,10 +157,17 @@ export function Speedometer() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
+      <header className="absolute top-4 left-4">
+        <h1 className="text-2xl font-bold text-foreground">Speedgrip</h1>
+      </header>
       <main className="flex flex-1 flex-col items-center justify-center p-4">
         {renderContent()}
       </main>
       <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+         <Button onClick={handleThemeToggle} variant="outline" size="icon">
+           <Palette />
+           <span className="sr-only">Toggle Theme</span>
+         </Button>
          <Button onClick={handleViewToggle} variant="outline" size="icon">
            {viewMode === 'digital' ? <Gauge /> : <Smartphone />}
            <span className="sr-only">Toggle View</span>
@@ -176,52 +207,83 @@ export function Speedometer() {
           <AlertDialogHeader>
             <AlertDialogTitle>About Speedometer Online</AlertDialogTitle>
             <AlertDialogDescription asChild>
-              <section className="text-left space-y-4 pt-4">
-                <h2 className="text-lg font-semibold mt-4">What is Speedometer Online?</h2>
+              <div className="text-left space-y-4 pt-4">
                 <p>
                   <strong>Speedometer Online</strong> is a browser-based speed measuring tool that uses GPS technology to display your current speed in real-time. Designed for simplicity and precision, it works seamlessly on smartphones, tablets, and desktops without needing any app or plugin.
                 </p>
 
-                <h2 className="text-lg font-semibold mt-4">Why Use Our Live Speedometer?</h2>
-                <p>
-                  The <strong>live speedometer</strong> on our platform offers an instant speed reading based on your device’s GPS. Whether you're driving, cycling, or walking, it helps you monitor your movement accurately. The speed is displayed in kilometers per hour (km/h) or miles per hour (mph), based on your location or preference.
-                </p>
-
-                <h2 className="text-lg font-semibold mt-4">How Does It Work?</h2>
-                <p>
-                  When you visit the site, your browser will request permission to access location data. Once granted, the <em>live speedometer</em> fetches your real-time speed using built-in geolocation APIs. No login, no downloads—just open the page and see your speed instantly.
-                </p>
-
-                <h2 className="text-lg font-semibold mt-4">Features of Speedometer Online</h2>
-                <ul>
-                  <li>100% free and secure to use</li>
-                  <li>Instant GPS-based speed tracking</li>
-                  <li>Works across devices and operating systems</li>
-                  <li>No registration required</li>
-                  <li>Lightweight and ad-free interface</li>
-                </ul>
-
-                <h2 className="text-lg font-semibold mt-4">Is Speedometer Online Accurate?</h2>
-                <p>
-                  Yes. The accuracy of the <strong>Speedometer Online</strong> tool depends on your device's GPS quality and signal strength. For best results, use it outdoors with a clear view of the sky. Accuracy may vary slightly in indoor or obstructed areas.
-                </p>
-
-                <h2 className="text-lg font-semibold mt-4">Use Cases</h2>
-                <p>
-                  Our speedometer tool is ideal for:
-                </p>
-                <ul>
-                  <li>Checking vehicle speed without a physical meter</li>
-                  <li>Measuring cycling or jogging pace</li>
-                  <li>Testing GPS speed on new devices</li>
-                  <li>Outdoor adventure tracking</li>
-                </ul>
-
-                <h2 className="text-lg font-semibold mt-4">Start Using Speedometer Online Now</h2>
-                <p>
-                  If you're looking for a reliable and easy-to-use speed tracking solution, <strong>Speedometer Online</strong> is your go-to tool. It’s fast, intuitive, and works directly in your browser.
-                </p>
-              </section>
+                <Accordion type="single" collapsible className="w-full border-t mt-6 pt-4">
+                  <AccordionItem value="faq-section">
+                    <AccordionTrigger>
+                      <h2 className="text-xl font-bold">Frequently Asked Questions</h2>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="item-1">
+                          <AccordionTrigger>1. What is an online speedometer?</AccordionTrigger>
+                          <AccordionContent>
+                            An <strong>online speedometer</strong> is a digital tool that uses your device's GPS to measure and display your speed in real time. Unlike a car's built-in speedometer, it works anywhere you have a signal, making it perfect for various activities.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-2">
+                          <AccordionTrigger>2. How accurate is this speed checker?</AccordionTrigger>
+                          <AccordionContent>
+                            Our <strong>speed checker</strong> is highly accurate, often within 1-2 mph of a vehicle's speedometer. Accuracy depends on GPS signal strength, so it performs best in open areas with a clear sky view.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-3">
+                          <AccordionTrigger>3. Do I need to install anything to use this speedometer?</AccordionTrigger>
+                          <AccordionContent>
+                            No, this is a web-based <strong>speedometer</strong> that runs directly in your browser. There are no apps or plugins to download, ensuring a fast and secure experience.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-4">
+                          <AccordionTrigger>4. Can I use this speedometer online for my bike?</AccordionTrigger>
+                          <AccordionContent>
+                            Absolutely! This <strong>speedometer online</strong> is perfect for cycling, running, or any activity where you want to track your speed. It's a versatile tool for all your speed-tracking needs.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-5">
+                          <AccordionTrigger>5. What units does the online speedometer support?</AccordionTrigger>
+                          <AccordionContent>
+                            This <strong>online speedometer</strong> supports kilometers per hour (km/h), miles per hour (mph), and meters per second (m/s). You can easily toggle between units with the click of a button.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-6">
+                          <AccordionTrigger>6. Does this speed checker work offline?</AccordionTrigger>
+                          <AccordionContent>
+                            While the initial page load requires an internet connection, the core <strong>speed checker</strong> functionality uses GPS, which works without an active internet connection. Your speed will continue to be tracked as long as your device can receive a GPS signal.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-7">
+                          <AccordionTrigger>7. Is my location data saved?</AccordionTrigger>
+                          <AccordionContent>
+                            We respect your privacy. All location data is processed directly on your device by the browser. Our <strong>speedometer</strong> does not store your location history or personal data on our servers.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-8">
+                          <AccordionTrigger>8. Why does the speedometer need location access?</AccordionTrigger>
+                          <AccordionContent>
+                            To function, a GPS <strong>speedometer</strong> must access your device's location to calculate how fast you are moving between two points. Access is only required while you are using the tool.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-9">
+                          <AccordionTrigger>9. What makes this the best online speedometer?</AccordionTrigger>
+                          <AccordionContent>
+                            Our <strong>online speedometer</strong> combines accuracy, a user-friendly interface, multiple unit options, and a commitment to privacy, making it a reliable and convenient <strong>speed checker</strong> for any user.
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-10">
+                          <AccordionTrigger>10. Can I track my total distance traveled?</AccordionTrigger>
+                          <AccordionContent>
+                            Yes! Our <strong>speedometer online</strong> includes a journey tracking feature. You can start, stop, and reset a journey to see the total distance you have traveled in either kilometers or miles.
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
