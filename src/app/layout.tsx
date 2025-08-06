@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
@@ -5,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { SpeedometerProvider } from '@/hooks/use-speedometer';
 
 export const metadata: Metadata = {
-  title: 'Speedify – Live Speedometer',
+  title: 'Speedgrip – Live Speedometer',
   description: 'Use Live Speedometer to track your real-time speed directly from your browser using GPS. No app install needed.',
   icons: {
     icon: '/fevicon.png',
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Analytics Script */}
         <Script
@@ -43,7 +44,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased bg-background" suppressHydrationWarning>
         <SpeedometerProvider>
-          {children}
+            {children}
         </SpeedometerProvider>
         <Toaster />
       </body>
