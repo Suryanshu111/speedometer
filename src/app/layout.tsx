@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Speedgrip – Live Speedometer',
   description: 'Use Live Speedometer to track your real-time speed directly from your browser using GPS. No app install needed.',
   icons: {
-    icon: '/fevicon.ico',
+    icon: '/favicon.ico',
   },
 };
 
