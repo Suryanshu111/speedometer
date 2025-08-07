@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+@layer base {
+  :root, .light {
+    --background: 240 60% 98%; /* Lighter almost white */
+    --foreground: 231 35% 18%; /* Dark Indigo Text */
+    --card: 240 50% 100%;
+    --card-foreground: 231 35% 18%;
+    --popover: 240 50% 100%;
+    --popover-foreground: 231 35% 18%;
+    --primary: 231 48% 48%; /* Deep Indigo */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 20% 92%;
+    --secondary-foreground: 231 35% 18%;
+    --muted: 240 20% 92%;
+    --muted-foreground: 231 35% 45%;
+    --accent: 276 100% 73%; /* Electric Purple */
+    --accent-foreground: 231 35% 18%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 20% 88%;
+    --input: 240 20% 88%;
+    --ring: 276 100% 73%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 233 36% 19%; /* Very dark desaturated Indigo */
+    --foreground: 0 0% 98%;
+    --card: 233 36% 24%;
+    --card-foreground: 0 0% 98%;
+    --popover: 233 36% 19%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 231 48% 48%; /* Deep Indigo */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 233 36% 29%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 233 36% 29%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 276 100% 73%; /* Electric Purple */
+    --accent-foreground: 233 36% 19%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 233 36% 29%;
+    --input: 233 36% 29%;
+    --ring: 276 100% 73%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
