@@ -6,8 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { SpeedometerProvider } from '@/hooks/use-speedometer';
 
 export const metadata: Metadata = {
-  title: 'Speedgrip – Live Speedometer',
-  description: 'Use Live Speedometer to track your real-time speed directly from your browser using GPS. No app install needed.',
+  title: 'Speedometer Online | Live Speedometer | Real Time Speedometer',
+  description: 'Use Speedometer Online to track your real-time speed directly from your browser using GPS. No app install needed.',
   icons: {
     icon: '/favicon.ico',
   },
