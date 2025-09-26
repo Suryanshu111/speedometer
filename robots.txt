@@ -1,0 +1,40 @@
+# Allow all search engines to crawl the site
+User-agent: *
+Disallow: 
+
+# Block Next.js build and config folders
+Disallow: /.next/
+Disallow: /node_modules/
+Disallow: /out/
+Disallow: /scripts/
+Disallow: /hooks/
+
+# Block system or config files
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /tsconfig.json
+Disallow: /next.config.js
+Disallow: /.env.local
+Disallow: /.env
+Disallow: /globals.css
+
+# Block API routes if you want them private (optional)
+Disallow: /api/
+
+# Block admin or hidden folders (if any)
+Disallow: /admin/
+Disallow: /private/
+
+# Block common file types that should not be indexed
+Disallow: /*.log$
+Disallow: /*.md$
+Disallow: /*.txt$
+
+# Allow important static files
+Allow: /favicon.ico
+Allow: /logo.png
+Allow: /fonts/
+Allow: /images/
+
+# Sitemap for search engines
+Sitemap: https://speedometeronline.live/sitemap.xml
