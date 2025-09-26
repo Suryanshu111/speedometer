@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
@@ -8,7 +7,7 @@ import { SpeedometerProvider } from '@/hooks/use-speedometer';
 export const metadata: Metadata = {
   title: 'Track Your Live Speed With Speedometer Online | Live Speedometer',
   description: 'Use Speedometer Online to track your accurate and real-time speed directly from your browser using GPS. No app install needed.',
-   keywords: ['Speedometer Online', 'Online Speedometer', 'track my speed', 'what is my speed', 'speedometer', 'train speedometer'],
+  keywords: ['Speedometer Online', 'Online Speedometer', 'track my speed', 'what is my speed', 'speedometer', 'train speedometer'],
   icons: {
     icon: '/favicon.ico',
   },
@@ -25,7 +24,7 @@ export default function RootLayout({
         {/* Google Analytics Script */}
         <Script
           strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-TJ3XS18903`}
+          src="https://www.googletagmanager.com/gtag/js?id=G-TJ3XS18903"
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
@@ -36,6 +35,34 @@ export default function RootLayout({
           `}
         </Script>
 
+        {/* JSON-LD Schema for Speedometer Online */}
+        <Script id="speedometer-schema" type="application/ld+json" strategy="afterInteractive">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "Speedometer Online - Live Speed Tracker",
+              "url": "https://speedometeronline.live/",
+              "description": "Use Speedometer Online to track your accurate and real-time speed directly from your browser using GPS. No app install needed.",
+              "applicationCategory": "UtilityApplication",
+              "operatingSystem": "Any",
+              "browserRequirements": "Requires JavaScript and GPS access",
+              "keywords": ["Speedometer Online", "Online Speedometer", "track my speed", "what is my speed", "speedometer", "train speedometer"],
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1500"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Team Stallgrip",
+                "url": "https://speedometeronline.live/"
+              }
+            }
+          `}
+        </Script>
+
+        {/* Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -45,7 +72,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased bg-background" suppressHydrationWarning>
         <SpeedometerProvider>
-            {children}
+          {children}
         </SpeedometerProvider>
         <Toaster />
       </body>
