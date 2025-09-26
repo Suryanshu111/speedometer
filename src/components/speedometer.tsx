@@ -159,7 +159,7 @@ export function Speedometer() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <header className="absolute top-4 left-4">
-        <h1 className="text-2xl font-bold text-foreground">Speedgrip</h1>
+        <h1 className="text-2xl font-bold text-foreground">Speedometer Online</h1>
       </header>
       <main className="flex flex-1 flex-col items-center justify-center p-4">
         {renderContent()}
