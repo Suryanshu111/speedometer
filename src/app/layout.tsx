@@ -8,6 +8,7 @@ import { SpeedometerProvider } from '@/hooks/use-speedometer';
 export const metadata: Metadata = {
   title: 'Track Your Live Speed With Speedometer Online | Live Speedometer',
   description: 'Use Speedometer Online to track your accurate and real-time speed directly from your browser using GPS. No app install needed.',
+   keywords: ['Speedometer Online', 'Online Speedometer', 'track my speed', 'what is my speed', 'speedometer', 'train speedometer'],
   icons: {
     icon: '/favicon.ico',
   },
